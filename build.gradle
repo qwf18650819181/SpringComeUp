@@ -1,8 +1,48 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/public' } // 阿里云 Maven 镜像
+        maven { url 'https://maven.aliyun.com/repository/jcenter' } // 阿里云 JCenter 镜像
+        maven { url 'https://maven.aliyun.com/repository/google' } // 阿里云 Google 镜像
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' } // 阿里云 Gradle Plugin 镜像
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url "https://repo.spring.io/release" }
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://repo.spring.io/snapshot" }
+        gradlePluginPortal()
+    }
+
+}
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
 }
+
+
+configurations {
+    all*.resolutionStrategy {
+        dependencySubstitution {
+            all { DependencySubstitution substitution ->
+                substitution.useTarget(substitution.requested)
+            }
+        }
+    }
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+}
+
+apply plugin: 'idea' // 如果你在使用 IntelliJ IDEA
+
+idea {
+    module {
+//        downloadJavadoc = true // 如果你也需要 Javadoc
+        downloadSources = true
+    }
+}
+
 
 group = 'com.comeup'
 version = '0.0.1-SNAPSHOT'
@@ -11,13 +51,24 @@ java {
     sourceCompatibility = '17'
 }
 
+
 repositories {
+    maven { url "https://maven.aliyun.com/repository/public" }
     mavenCentral()
+    maven { url "https://repo.spring.io/release" }
+    maven { url "https://repo.spring.io/milestone" }
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url 'https://maven.aliyun.com/repository/public' } // 阿里云 Maven 镜像
+    maven { url 'https://maven.aliyun.com/repository/jcenter' } // 阿里云 JCenter 镜像
+    maven { url 'https://maven.aliyun.com/repository/google' } // 阿里云 Google 镜像
+    maven { url 'https://maven.aliyun.com/repository/gradle-plugin' } // 阿里云 Gradle Plugin 镜像
+    maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+    gradlePluginPortal()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.2.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.2.1'
 }
 
 tasks.named('test') {
