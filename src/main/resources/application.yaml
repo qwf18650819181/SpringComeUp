@@ -1,5 +1,32 @@
 server:
-  port: 8081
-person:
-  name: zhangsan
-  weight: 12
+  port: 8082
+spring:
+  application:
+    name: Spring-Come-Up
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/nsy_product?characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&noAccessToProcedureBodies=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      pool-name: ${spring.application.name}-DataSourcePool
+      # 最大连接数
+      maximum-pool-size: 20
+      # 最小空闲连接
+      minimum-idle: 5
+      # 最大空闲时间
+      idle-timeout: 60000
+      # max time wait for a connection from the pool
+      connection-timeout: 15000
+  cache:
+    type: redis
+  data:
+    redis:
+      host: 127.0.0.1
+      password: 123456
+      timeout: 500
+      jedis:
+        pool:
+          max-wait: 10000
+          max-idle: 8
+          min-idle: 0
