@@ -10,4 +10,9 @@ import com.comeup.springcomeup.infrashtructure.db.domain.ConfigDictionaryEntity;
 */
 public interface ConfigDictionaryService extends IService<ConfigDictionaryEntity> {
 
+    ConfigDictionaryEntity getDictionaryByCode(String code);
+
+    ConfigDictionaryEntity getDictionaryByCode();
+
+
 }

@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.comeup.springcomeup.infrashtructure.db.domain.ConfigDictionaryEntity;
 import com.comeup.springcomeup.infrashtructure.db.mapper.ConfigDictionaryMapper;
 import com.comeup.springcomeup.infrashtructure.db.service.ConfigDictionaryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
 * @author Administrator
@@ -15,6 +18,23 @@ import org.springframework.stereotype.Service;
 public class ConfigDictionaryServiceImpl extends ServiceImpl<ConfigDictionaryMapper, ConfigDictionaryEntity>
     implements ConfigDictionaryService {
 
+    @Autowired
+    TestServiceImpl testService;
+
+
+    @Override
+    public ConfigDictionaryEntity getDictionaryByCode(String code) {
+        ConfigDictionaryEntity configDictionaryEntity = Optional.ofNullable(this.getById(code)).orElse(new ConfigDictionaryEntity());
+        configDictionaryEntity.setValue(testService.test());
+        return configDictionaryEntity;
+    }
+
+    @Override
+    public ConfigDictionaryEntity getDictionaryByCode() {
+        ConfigDictionaryEntity configDictionaryEntity = new ConfigDictionaryEntity();
+        configDictionaryEntity.setValue(testService.test());
+        return configDictionaryEntity;
+    }
 }
 
 
