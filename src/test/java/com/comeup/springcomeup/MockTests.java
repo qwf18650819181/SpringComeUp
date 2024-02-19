@@ -8,9 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MockTests {
@@ -21,9 +20,12 @@ class MockTests {
     @Mock
     private TestServiceImpl testService;
 
+//    @Spy
+//    private TestServiceImpl testService1;
+
     @BeforeEach
     void init() {
-        when(testService.test()).thenReturn("gate");
+//        when(testService1.test()).thenReturn("gate");
     }
 
     @Test

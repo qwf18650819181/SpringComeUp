@@ -25,14 +25,14 @@ public class ConfigDictionaryServiceImpl extends ServiceImpl<ConfigDictionaryMap
     @Override
     public ConfigDictionaryEntity getDictionaryByCode(String code) {
         ConfigDictionaryEntity configDictionaryEntity = Optional.ofNullable(this.getById(code)).orElse(new ConfigDictionaryEntity());
-        configDictionaryEntity.setValue(testService.test());
+        configDictionaryEntity.setValue(String.valueOf(testService.test()));
         return configDictionaryEntity;
     }
 
     @Override
     public ConfigDictionaryEntity getDictionaryByCode() {
         ConfigDictionaryEntity configDictionaryEntity = new ConfigDictionaryEntity();
-        configDictionaryEntity.setValue(testService.test());
+        configDictionaryEntity.setValue(String.valueOf(testService.test()));
         return configDictionaryEntity;
     }
 }

@@ -1,5 +1,6 @@
 package com.comeup.springcomeup.infrashtructure.db.service.impl;
 
+import com.comeup.springcomeup.infrashtructure.db.service.TestService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,10 +9,11 @@ import org.springframework.stereotype.Service;
 * @createDate 2024-02-06 11:18:22
 */
 @Service
-public class TestServiceImpl {
+public class TestServiceImpl implements TestService {
 
-    public String test() {
-        return "test";
+    @Override
+    public Integer test() {
+        return 8;
     }
 
 }

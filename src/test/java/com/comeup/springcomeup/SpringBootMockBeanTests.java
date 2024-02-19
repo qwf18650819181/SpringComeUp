@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static org.mockito.Mockito.when;
-
 @SpringBootTest
 class SpringBootMockBeanTests {
 
@@ -20,9 +18,12 @@ class SpringBootMockBeanTests {
     @MockBean
     private TestServiceImpl testService;
 
+//    @SpyBean
+//    private TestService testService1;
+
     @BeforeEach
     void init() {
-        when(testService.test()).thenReturn("gate");
+//        when(testService1.test()).thenReturn(5);
     }
 
     @Test
