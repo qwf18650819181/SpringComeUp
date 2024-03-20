@@ -37,7 +37,7 @@
 //    @Bean
 //    public KafkaAdmin admin() {
 //        Map<String, Object> configs = new HashMap<>();
-//        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, env.getProperty("kafka.producer.broker"));
+//        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, env.getProperty("spring.kafka.bootstrap-servers"));
 //        return new KafkaAdmin(configs);
 //    }
 //
@@ -78,7 +78,7 @@
 //    @Bean
 //    public Map<String, Object> consumerConfigs() {
 //        HashMap<String, Object> props = new HashMap<>(4);
-//        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, env.getProperty("kafka.consumer.bootstrap-server", "127.0.0.1:9092"));
+//        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, env.getProperty("spring.kafka.bootstrap-servers", "127.0.0.1:9092"));
 //        props.put(ConsumerConfig.GROUP_ID_CONFIG, env.getProperty("kafka.consumer.consumer-group-id", "come-up"));
 //        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
 //        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
