@@ -1,4 +1,4 @@
-package com.comeup.springcomeup.interfaceImpl.dto;
+package com.comeup.springcomeup.controller.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

@@ -10,8 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.kafka.annotation.EnableKafka;
 
 /**
  *
@@ -22,6 +24,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 @MapperScan("com.comeup.springcomeup.infrashtructure.db.mapper")
 @EnableCaching
+@EnableKafka
 public class SpringComeUpApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringComeUpApplication.class);
 

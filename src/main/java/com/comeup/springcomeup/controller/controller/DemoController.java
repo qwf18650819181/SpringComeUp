@@ -1,14 +1,15 @@
-package com.comeup.springcomeup.interfaceImpl.controller;
+package com.comeup.springcomeup.controller.controller;
 
-import com.comeup.springcomeup.interfaceImpl.dto.Book;
+import com.comeup.springcomeup.controller.dto.Book;
+import com.comeup.springcomeup.infrashtructure.mq.KafkaSendService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = "Demo API", description = "demo to spring doc")
 public class DemoController {
+
+    @Autowired
+    KafkaSendService kafkaSendService;
+
 
     @GetMapping("/demo/{name}")
     @Operation(summary = "案例", description = "案例 action")
@@ -32,6 +37,12 @@ public class DemoController {
 //    @ApiResponse(responseCode = "200", description = "demoBook success")
     public Book demoBook(/*@io.swagger.v3.oas.annotations.parameters.RequestBody*/ @RequestBody Book request) {
         return request;
+    }
+
+    @GetMapping("/demo/kafka")
+    @Operation(summary = "kafka 案例", description = "kafka 案例 action")
+    public void demoKafka(@RequestParam String message) {
+        kafkaSendService.sendDemo(message);
     }
 
 

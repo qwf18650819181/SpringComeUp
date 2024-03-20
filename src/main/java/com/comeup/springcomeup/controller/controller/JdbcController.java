@@ -1,4 +1,4 @@
-package com.comeup.springcomeup.interfaceImpl.controller;
+package com.comeup.springcomeup.controller.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
