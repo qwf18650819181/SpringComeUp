@@ -1,0 +1,121 @@
+#   1. docker pull bitnami/kafka:3.6.1
+#   2. docker network create --subnet=172.23.0.0/25 --gateway=172.23.0.1 netkafka
+version: "3.6"
+services:
+  kafka1:
+    container_name: kafka1
+    image: 'bitnami/kafka:3.6.1'
+    user: root
+    ports:
+      - '19093:9093'
+      - '19094:9094'
+    environment:
+      # 允许使用Kraft
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      # 定义kafka服务端socket监听端口（Docker内部的ip地址和端口）
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      # 定义安全协议
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      #定义外网访问地址（宿主机ip地址和端口,标红处修改为自己主机IP）
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://172.16.12.203:19092
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_KRAFT_CLUSTER_ID=iZWRiSqjZAlYwlKEqHFQWI
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@172.23.0.11:9093,2@172.23.0.12:9093,3@172.23.0.13:9093
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      # 设置broker最大内存，和初始内存
+      - KAFKA_HEAP_OPTS=-Xmx512M -Xms256M
+    volumes:
+      #挂载路径，标红处修改为自己的路径
+      - /E/docker/volume/kafka/broker01:/bitnami/kafka:rw
+    networks:
+      netkafka:
+        ipv4_address: 172.23.0.11
+  kafka2:
+    container_name: kafka2
+    image: 'bitnami/kafka:3.6.1'
+    user: root
+    ports:
+      - '29093:9093'
+      - '29094:9094'
+    environment:
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9093,CONTROLLER://:9094
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      #标红处修改为自己主机IP
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://172.16.12.203:29093
+      - KAFKA_CFG_NODE_ID=2
+      - KAFKA_KRAFT_CLUSTER_ID=iZWRiSqjZAlYwlKEqHFQWI #哪一，三个节点保持一致
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@172.23.0.11:9094,2@172.23.0.12:9094,3@172.23.0.13:9094
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_HEAP_OPTS=-Xmx512M -Xms256M
+    volumes:
+      #挂载路径，标红处修改为自己的路径
+      - /E/docker/volume/kafka/broker02:/bitnami/kafka:rw
+    networks:
+      netkafka:
+        ipv4_address: 172.23.0.12
+  kafka3:
+    container_name: kafka3
+    image: 'bitnami/kafka:3.6.1'
+    user: root
+    ports:
+      - '39093:9093'
+      - '39094:9094'
+    environment:
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9093,CONTROLLER://:9094
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      # 标红处修改为自己主机IP
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://172.16.12.203:39093
+      - KAFKA_CFG_NODE_ID=3
+      - KAFKA_KRAFT_CLUSTER_ID=iZWRiSqjZAlYwlKEqHFQWI
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@172.23.0.11:9094,2@172.23.0.12:9094,3@172.23.0.13:9094
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_HEAP_OPTS=-Xmx512M -Xms256M
+    volumes:
+      #挂载路径，标红处修改为自己的路径
+      - /E/docker/volume/kafka/broker03:/bitnami/kafka:rw
+    networks:
+      netkafka:
+        ipv4_address: 172.23.0.13
+networks:
+  name:
+  netkafka:
+    external: true
+    driver: bridge
+    name: netkafka
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.23.0.0/25
+          gateway: 172.23.0.1
+#
+#  代码解释：
+#       1. version: "3.6"`：指定了 Docker Compose 文件的版本。
+#       3. `kafka1:`、`kafka2:` 和 `kafka3:`：这些是要创建的 Kafka 服务的配置部分。每个服务都包括了容器的名称、镜像、端口映射、环境变量、卷挂载、网络配置等信息。
+#       4. `container_name`: 指定了容器的名称。
+#       5. `image`: 指定了要使用的 Docker 镜像。
+#       6. `ports`: 指定了要映射的端口，格式为 `<host_port>:<container_port>`。
+#       7. `environment`: 指定了环境变量，用于配置 Kafka 实例。
+#        KAFKA_ENABLE_KRAFT=yes：启用 Kafka 中的 Kafka Raft 强一致性协议 (KRaft)。
+#       8.KAFKA_CFG_PROCESS_ROLES=broker,controller：指定 Kafka 进程的角色，其中包括 “broker” 和 “controller”。
+#       9.KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER：指定控制器监听器的名称为 “CONTROLLER”。
+#       10.KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093：定义 Kafka 监听器的配置。这里使用了两个监听器，一个用于 “PLAINTEXT” 协议，监听 9092 端口，另一个用于 “CONTROLLER” 协议，监听 9093 端口。
+#       11.KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT：定义监听器的安全协议映射。这里将 “CONTROLLER” 协议映射到 “PLAINTEXT” 协议。
+#       12.KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://192.168.0.135:29092：定义 Kafka 在外部可访问的监听器地址。这里使用了 “PLAINTEXT” 协议和宿主机的 IP 地址。
+#       13.KAFKA_CFG_NODE_ID=1：指定当前 Kafka 节点的节点 ID。
+#       14.KAFKA_KRAFT_CLUSTER_ID=iZWRiSqjZAlYwlKEqHFQWI：指定 Kafka KRaft 集群的 ID。确保三个节点的集群 ID 相同。
+#       15.KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@172.23.0.11:9093,2@172.23.0.12:9093,3@172.23.0.13:9093：指定 KRaft 控制器的选举候选人列表。这里列出了三个节点的 IP 地址和端口。
+#       16.ALLOW_PLAINTEXT_LISTENER=yes：允许使用 “PLAINTEXT” 协议的监听器。
+#       17.KAFKA_HEAP_OPTS=-Xmx512M -Xms256M：指定 Kafka 进程的 Java 堆内存大小。这里将最大堆内存 (Xmx) 设置为 512M，初始堆内存 (Xms) 设置为 256M。
+#       18. `volumes`: 定义了数据卷的挂载方式，用于持久化存储 Kafka 的数据。
+#       19. `networks`: 指定了要连接的网络。
+#       20. `networks -> netkafka`: 定义了名为 `netkafka` 的网络配置，其中包括了 IP 地址分配等信息。
+
+

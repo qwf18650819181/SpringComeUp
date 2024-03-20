@@ -25,7 +25,7 @@ public class KafkaSendService {
 
     public void sendDemo(String message) {
         log.info("[kafka发送消息] KafkaSendService sendDemo message: {} timestamp: {}", JSONUtil.toJsonStr(message), LocalDateTime.now());
-        kafkaTemplate.send("demo-topic", message);
+        kafkaTemplate.send("demo-topic",0, "", message);
     }
 
 
