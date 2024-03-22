@@ -1,0 +1,16 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: Come-Up-Remote
+  cloud:
+    openfeign:
+      client:
+        config:
+            default:
+                connect-timeout: 5000
+                read-timeout: 5000
+                logger-level: full
+                url: http://127.0.0.1:8080
+
+
