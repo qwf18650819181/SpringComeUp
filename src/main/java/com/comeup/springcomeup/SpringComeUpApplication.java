@@ -24,7 +24,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 @SpringBootApplication
 @MapperScan("com.comeup.springcomeup.infrashtructure.db.mapper")
 @EnableCaching
-@EnableKafka
+//@EnableKafka
 public class SpringComeUpApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringComeUpApplication.class);
 
