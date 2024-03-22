@@ -10,85 +10,81 @@ buildscript {
         maven { url "https://repo.spring.io/snapshot" }
         gradlePluginPortal()
     }
-
-}
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.2.1'
-    id 'io.spring.dependency-management' version '1.1.4'
-    id 'idea'
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:3.2.1")
+//        classpath("io.spring.gradle:dependency-management-plugin:1.1.4")
+    }
 }
 
-configurations {
-    all*.resolutionStrategy {
-        dependencySubstitution {
-            all { DependencySubstitution substitution ->
-                substitution.useTarget(substitution.requested)
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        maven { url "https://maven.aliyun.com/repository/public" }
+        mavenCentral()
+        maven { url "https://repo.spring.io/release" }
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url 'https://maven.aliyun.com/repository/public' } // 阿里云 Maven 镜像
+        maven { url 'https://maven.aliyun.com/repository/jcenter' } // 阿里云 JCenter 镜像
+        maven { url 'https://maven.aliyun.com/repository/google' } // 阿里云 Google 镜像
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' } // 阿里云 Gradle Plugin 镜像
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+    }
+    java {
+        sourceCompatibility = '17'
+    }
+
+    configurations {
+        all*.resolutionStrategy {
+            dependencySubstitution {
+                all { DependencySubstitution substitution ->
+                    substitution.useTarget(substitution.requested)
+                }
             }
         }
     }
-}
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
-}
-idea {
-    module {
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+        resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+    }
+    idea {
+        module {
 //        downloadJavadoc = true // 如果你也需要 Javadoc
-        downloadSources = true
+            downloadSources = true
+        }
+    }
+    dependencies {
+        implementation('cn.hutool:hutool-all:5.8.25')
+        compileOnly('org.projectlombok:lombok:1.18.24')
+        annotationProcessor('org.projectlombok:lombok:1.18.24')
+        implementation('org.springframework.boot:spring-boot-starter-logging:3.2.1')
+        implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0")
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
+        testImplementation('org.springframework.boot:spring-boot-starter-test:3.2.1')
+    }
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+    group = 'com.wanzi'
+    version = '0.0.1'
+
+    jar.enabled = false
+//    bootJar.enabled = true
+    bootJar {
+        mainClass = 'com.wanzi.SpringComeUpApplication'
     }
 }
 
-
-group = 'com.comeup'
-version = '0.0.1-SNAPSHOT'
-
-java {
-    sourceCompatibility = '17'
-}
-
-repositories {
-    maven { url "https://maven.aliyun.com/repository/public" }
-    mavenCentral()
-    maven { url "https://repo.spring.io/release" }
-    maven { url "https://repo.spring.io/milestone" }
-    maven { url "https://repo.spring.io/snapshot" }
-    maven { url 'https://maven.aliyun.com/repository/public' } // 阿里云 Maven 镜像
-    maven { url 'https://maven.aliyun.com/repository/jcenter' } // 阿里云 JCenter 镜像
-    maven { url 'https://maven.aliyun.com/repository/google' } // 阿里云 Google 镜像
-    maven { url 'https://maven.aliyun.com/repository/gradle-plugin' } // 阿里云 Gradle Plugin 镜像
-    maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:3.2.1'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.2.1'
-    implementation 'org.springframework.boot:spring-boot-starter-cache:3.2.1'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc:3.2.1'
-    implementation 'org.springframework.boot:spring-boot-starter-logging:3.2.1'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.2.1'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.2.1'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.2.1'
-
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
-
-    runtimeOnly 'com.mysql:mysql-connector-j:8.0.33'
-    implementation ('com.baomidou:mybatis-plus-boot-starter:3.5.5') {
-        exclude group: 'org.mybatis', module: 'mybatis-spring'
-    }
-    implementation 'org.mybatis:mybatis-spring:3.0.3'
-    implementation 'cn.hutool:hutool-all:5.8.25'
-
-    implementation('org.apache.kafka:kafka-clients:3.6.1')
-    implementation("org.apache.kafka:kafka-streams:3.6.1")
-    implementation("org.springframework.kafka:spring-kafka:3.1.1")
-
-
-    compileOnly('org.projectlombok:lombok:1.18.24')
-    annotationProcessor('org.projectlombok:lombok:1.18.24')
+subprojects {
 
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
+
+
+
+
+
