@@ -1,0 +1,20 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: come-up-remote
+  cloud:
+    bootstrap:
+      enabled: true
+    nacos:
+      discovery:
+        server-addr: ${NACOS_URL:127.0.0.1:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml
+        shared-configs[0]:
+          data-id: application-common.${spring.cloud.nacos.config.file-extension} # 配置文件名-Data Id
+          refresh: false   # 是否动态刷新，默认为false
+        shared-configs[1]:
+          data-id: ${spring.application.name}-custom.${spring.cloud.nacos.config.file-extension}
+          refresh: true
