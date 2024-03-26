@@ -3,7 +3,7 @@ version = '0.0.1'
 
 
 dependencies {
-    implementation(files("libs/come-up-interface-0.0.1-plain.jar"))
-    implementation 'org.springframework.boot:spring-boot-starter-web:3.2.1'
+    implementation(project(":come-up-interface"))
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
 }
 

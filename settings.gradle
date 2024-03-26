@@ -3,4 +3,5 @@ include 'come-up-interface'
 include 'come-up-service'
 include 'come-up-remote'
 include 'base-feign'
+include 'come-up-gateway'
 

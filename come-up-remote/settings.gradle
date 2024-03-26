@@ -1,0 +1,5 @@
+rootProject.name = 'come-up-remote'
+include 'come-up-interface'
+project(':come-up-interface').projectDir = new File(settingsDir, '../come-up-interface')
+
+

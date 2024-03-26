@@ -12,16 +12,25 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:3.2.1")
-//        classpath("io.spring.gradle:dependency-management-plugin:1.1.4")
+        classpath("io.spring.gradle:dependency-management-plugin:1.1.4")
     }
 }
 
 allprojects {
+    ext {
+        set('springCloudVersion', '4.1.0')
+        set('springCloudAliVersion', '2022.0.0.0')
+        set('springBootVersion', '3.2.1')
+    }
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.6-SNAPSHOT"
+        }
+    }
     repositories {
         maven { url "https://maven.aliyun.com/repository/public" }
         mavenCentral()
@@ -59,18 +68,20 @@ allprojects {
     }
     dependencies {
         implementation('cn.hutool:hutool-all:5.8.25')
-        compileOnly('org.projectlombok:lombok:1.18.24')
+        implementation('org.projectlombok:lombok:1.18.24')
         annotationProcessor('org.projectlombok:lombok:1.18.24')
-        implementation('org.springframework.boot:spring-boot-starter-logging:3.2.1')
-        implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0")
-        implementation('org.springframework.cloud:spring-cloud-starter-loadbalancer:4.1.0')
-        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
-        testImplementation('org.springframework.boot:spring-boot-starter-test:3.2.1')
+        implementation("org.springframework.cloud:spring-cloud-starter-openfeign:${springCloudVersion}")
+        implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer:${springCloudVersion}")
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
         //bootstrap引导配置生效
-        implementation('org.springframework.cloud:spring-cloud-starter-bootstrap:4.1.0')
-        implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2021.1")
-        implementation('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2021.1')
+        implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:${springCloudVersion}")
+        implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${springCloudAliVersion}")
+        implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${springCloudAliVersion}")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+        testImplementation("org.springframework.boot:spring-boot-starter-logging:${springBootVersion}")
+
     }
     tasks.named('test') {
         useJUnitPlatform()
