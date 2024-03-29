@@ -18,3 +18,7 @@ spring:
         shared-configs[1]:
           data-id: ${spring.application.name}-custom.${spring.cloud.nacos.config.file-extension}
           refresh: true
+logging:
+  level:
+    org.springframework.data.elasticsearch.core: debug
+    org.springframework.data.elasticsearch.client.WIRE: TRACE

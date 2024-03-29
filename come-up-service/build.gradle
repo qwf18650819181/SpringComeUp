@@ -11,6 +11,8 @@ dependencies {
 
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-elasticsearch:${springBootVersion}"
+    implementation 'org.elasticsearch:elasticsearch:7.8.1'
 
     runtimeOnly 'com.mysql:mysql-connector-j:8.0.33'
     implementation ('com.baomidou:mybatis-plus-boot-starter:3.5.5') {
@@ -21,6 +23,8 @@ dependencies {
     implementation('org.apache.kafka:kafka-clients:3.6.1')
     implementation("org.apache.kafka:kafka-streams:3.6.1")
     implementation("org.springframework.kafka:spring-kafka:3.1.1")
+
+
 
 
 }

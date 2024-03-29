@@ -21,6 +21,9 @@ spring:
   cache:
     type: redis
   data:
+    elasticsearch:
+      rest:
+        uris: localhost:9200
     redis:
       host: 127.0.0.1
       password: 123456
@@ -43,3 +46,4 @@ spring:
       max-poll-records: 500
     admin:
       auto-create: true
+
