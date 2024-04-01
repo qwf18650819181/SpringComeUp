@@ -80,7 +80,7 @@ allprojects {
         implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${springCloudAliVersion}")
 
         testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
-        testImplementation("org.springframework.boot:spring-boot-starter-logging:${springBootVersion}")
+        implementation("org.springframework.boot:spring-boot-starter-logging:${springBootVersion}")
 
     }
     tasks.named('test') {
