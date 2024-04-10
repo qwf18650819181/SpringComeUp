@@ -5,6 +5,7 @@ import com.wanzi.application.req.CreateUserReq;
 import com.wanzi.domain.aggregateA.entity.User;
 import com.wanzi.infrastructure.es.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
     public User createUser(CreateUserReq req) {
+        redisTemplate.convertAndSend("redis-topic-demo", "12345");
         User user = User.builder()
                 .id(UUID.fastUUID().toString())
                 .name(req.getName())
