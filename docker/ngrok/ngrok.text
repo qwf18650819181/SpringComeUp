@@ -4,3 +4,6 @@ loophole http 8080 --hostname qiuwanfeng
 
 bore local 8000 --to bore.pub
 
+组网:
+    zerotier
+    tailscale [网速更优]
