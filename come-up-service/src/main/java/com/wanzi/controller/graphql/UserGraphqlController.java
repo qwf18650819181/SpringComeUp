@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
  * @version: 1.0
  */
 @Controller
-public class UserResolver {
+public class UserGraphqlController {
 
     @Autowired
     UserGraphqlService userService;
