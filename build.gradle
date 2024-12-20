@@ -79,6 +79,10 @@ allprojects {
         implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${springCloudAliVersion}")
         implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${springCloudAliVersion}")
 
+        implementation("org.springframework.boot:spring-boot-starter-graphql:${springBootVersion}")
+        implementation("com.graphql-java:graphql-java-tools:5.2.4")
+
+
         testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
         implementation("org.springframework.boot:spring-boot-starter-logging:${springBootVersion}")
 

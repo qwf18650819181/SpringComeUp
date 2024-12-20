@@ -1,0 +1,15 @@
+
+
+type Query {
+    findUserById(id: ID!): User
+}
+
+type Mutation {
+    updateUser(id: ID!, email: String!): User
+}
+
+type User {
+    id: ID!
+    name: String
+    email: String
+}
